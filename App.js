@@ -11,7 +11,6 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-
 const productsList = [{name: "abc", price: 10, URI: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80"}, 
 {name: "xyz", price: 20, URI: "https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"}];
 
@@ -22,41 +21,41 @@ const ordersList = [{order_num: 1, product_name: "abc","price": 20, customer_nam
 {order_num: 2,product_name: "xyz","price": 50, customer_name: "Tom", date: "1/5/2021"}
 ];
 
-function HomeScreen({ navigation }) {
+const HomeScreen = ({ navigation }) => {
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={styles.container}>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Products List", {list: productsList})}
       >
-        Manage Products
+        <Text style={styles.text}>Manage Products</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Employees List", {list: employeesList})}
       >
-        Manage Employees
+        <Text style={styles.text}>Manage Employees</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Orders List", {list: ordersList})}
       >
-        Manage Orders
+        <Text style={styles.text}>Manage Orders</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-function ProductsListScreen({ navigation, route }) {
+const ProductsListScreen = ({ navigation, route }) => {
 
   const {list} = route.params;
   return (
 
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-  
+    <View style={styles.container}>
+
       <FlatList
         data={list}
         renderItem={({item}) => (
@@ -64,7 +63,7 @@ function ProductsListScreen({ navigation, route }) {
             style={styles.button}
             onPress={() => navigation.navigate("Product Details", {obj: item})}
           >
-            <Text>{item.name}</Text>
+            <Text style={styles.text}>{item.name}     {item.price}</Text>
           </TouchableOpacity>
         )}
       />
@@ -73,19 +72,19 @@ function ProductsListScreen({ navigation, route }) {
         style={styles.button}
         onPress={() => navigation.navigate("Home")}
       >
-        Back to Home
+        <Text style={styles.text}>Back to Home</Text>
       </TouchableOpacity>
 
     </View>
   );
 }
 
-function ProductDetailsScreen({ navigation, route }) {
+const ProductDetailsScreen = ({ navigation, route }) => {
   const {obj} = route.params; 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{obj.name + "\t\t" + obj.price}
+    <View style={styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.simpleText}>{obj.name + "\t\t" + obj.price}
           <Image source={{uri: obj.URI}} style={{width: 100, height: 100, marginLeft: 20}}/>
         </Text>
       </View>
@@ -93,17 +92,17 @@ function ProductDetailsScreen({ navigation, route }) {
         style={styles.button}
         onPress={() => navigation.navigate("Products List", {list: productsList})}
       >
-        Back to Product's List
+        <Text style={styles.text}>Back to Product's List</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-function EmployeesListScreen({ navigation, route }) {
+const EmployeesListScreen = ({ navigation, route }) => {
 
   let {list} = route.params;
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={styles.container}>
       
       <FlatList
         data={list}
@@ -112,7 +111,7 @@ function EmployeesListScreen({ navigation, route }) {
             style={styles.button}
             onPress={() => navigation.navigate("Employee Details", {obj: item})}
           >
-            <Text>{item.emp_name + "\t\t" + item.designation}</Text>
+            <Text style={styles.text}>{item.emp_name + "\t\t" + item.designation}</Text>
           </TouchableOpacity>
         )}
       />
@@ -121,34 +120,34 @@ function EmployeesListScreen({ navigation, route }) {
         style={styles.button}
         onPress={() => navigation.navigate("Home")}
       >
-        Back to Home
+        <Text style={styles.text}>Back to Home</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-function EmployeeDetailsScreen({ navigation, route}) {
+const EmployeeDetailsScreen = ({ navigation, route}) => {
   let {obj} = route.params
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{obj.emp_name + "\t\t" + obj.designation + "\t\t" + obj.salary}</Text>
+    <View style={styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.simpleText}>{obj.emp_name + "\t\t" + obj.designation + "\t\t" + obj.salary}</Text>
       </View>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Employees List", {list: employeesList})}
       >
-        Back to Employee's List
+        <Text style={styles.text}>Back to Employee's List</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-function OrdersListScreen({ navigation, route}) {
+const OrdersListScreen = ({ navigation, route}) => {
   let {list} = route.params;
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={styles.container}>
       
       <FlatList
         data={list}
@@ -157,7 +156,7 @@ function OrdersListScreen({ navigation, route}) {
             style={styles.button}
             onPress={() => navigation.navigate("Order Details", {obj: item})}
           >
-            <Text>{item.order_num + "\t\t" + item.product_name + "\t\t" + item.price}</Text>
+            <Text style={styles.text}>{item.order_num + "\t\t" + item.product_name + "\t\t" + item.price}</Text>
           </TouchableOpacity>
         )}
       />
@@ -166,25 +165,25 @@ function OrdersListScreen({ navigation, route}) {
         style={styles.button}
         onPress={() => navigation.navigate("Home")}
       >
-        Back to Home
+        <Text style={styles.text}>Back to Home</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-function OrderDetailsScreen({ navigation, route}) {
+const OrderDetailsScreen = ({ navigation, route}) => {
   let {obj} = route.params;
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{obj.order_num + "\t\t" + obj.product_name + "\t\t" + obj.price + "\t\t" + obj.customer_name + "\t\t" + obj.date}</Text>
+    <View style={styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.simpleText}>{obj.order_num + "\t\t" + obj.product_name + "\t\t" + obj.price + "\t\t" + obj.customer_name + "\t\t" + obj.date}</Text>
       </View>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Orders List", {list: ordersList})}
       >
-        Back to Order's List
+        <Text style={styles.text}>Back to Order's List</Text>
       </TouchableOpacity>
     </View>
   );
@@ -216,10 +215,28 @@ export default function App() {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#7a42f4",
-    padding: 10,
-    margin: 15,
-    height: 40,
-    borderRadius: 20,
+    margin: 10,
+    elevation: 8,
+    backgroundColor: "#009687",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12
+  },
+  container: {
+    flex: 1, 
+    alignItems: "center", 
+    justifyContent: "center" 
+  },
+  simpleText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "black"
+  }, 
+  text: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    // alignSelf: "center",
+    // textTransform: "uppercase"
   }
 });
