@@ -15,8 +15,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const productsList = [{name: "abc", price: 10, URI: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80"}, 
 {name: "xyz", price: 20, URI: "https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"}];
 
-const employeesList = [{"emp_name": "abc", "designation": "xyz"}, {"emp_name": "xyz","designation": "abc"}];
-const ordersList = [{"order_num": 1,"product_name": "abc","price": 20},{"order_num": 2,"product_name": "xyz","price": 50}];
+const employeesList = [{emp_name: "abc", designation: "xyz", salary: 20000}, 
+{emp_name: "xyz", designation: "abc", salary: 35000}];
+
+const ordersList = [{order_num: 1, product_name: "abc","price": 20, customer_name: "John", date: "1/1/2021"},
+{order_num: 2,product_name: "xyz","price": 50, customer_name: "Tom", date: "1/5/2021"}
+];
 
 function HomeScreen({ navigation }) {
 
@@ -81,9 +85,9 @@ function ProductDetailsScreen({ navigation, route }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>{obj.name}</Text>
-        <Text>{obj.price}</Text>
-        <Image source={{uri: obj.URI}} style={{width: 100, height: 100}}/>
+        <Text>{obj.name + "\t\t" + obj.price}
+          <Image source={{uri: obj.URI}} style={{width: 100, height: 100, marginLeft: 20}}/>
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.button}
@@ -106,9 +110,9 @@ function EmployeesListScreen({ navigation, route }) {
         renderItem={({item}) => (
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Product Details", {obj: item})}
+            onPress={() => navigation.navigate("Employee Details", {obj: item})}
           >
-            <Text>{item.name}</Text>
+            <Text>{item.emp_name + "\t\t" + item.designation}</Text>
           </TouchableOpacity>
         )}
       />
@@ -123,41 +127,64 @@ function EmployeesListScreen({ navigation, route }) {
   );
 }
 
-function EmployeeDetailsScreen({ navigation }) {
+function EmployeeDetailsScreen({ navigation, route}) {
+  let {obj} = route.params
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text>{obj.emp_name + "\t\t" + obj.designation + "\t\t" + obj.salary}</Text>
+      </View>
+
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Employees List")}
+        onPress={() => navigation.navigate("Employees List", {list: employeesList})}
       >
-        Back to Emoloyee's List
+        Back to Employee's List
       </TouchableOpacity>
     </View>
   );
 }
 
 function OrdersListScreen({ navigation, route}) {
+  let {list} = route.params;
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      {displayList(route.params.ordersList)};
+      
+      <FlatList
+        data={list}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Order Details", {obj: item})}
+          >
+            <Text>{item.order_num + "\t\t" + item.product_name + "\t\t" + item.price}</Text>
+          </TouchableOpacity>
+        )}
+      />
+
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Orders List")}
+        onPress={() => navigation.navigate("Home")}
       >
-        Back to Orders's List
+        Back to Home
       </TouchableOpacity>
     </View>
   );
 }
 
-function OrderDetailsScreen({ navigation }) {
+function OrderDetailsScreen({ navigation, route}) {
+  let {obj} = route.params;
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text>{obj.order_num + "\t\t" + obj.product_name + "\t\t" + obj.price + "\t\t" + obj.customer_name + "\t\t" + obj.date}</Text>
+      </View>
+
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Orders List")}
+        onPress={() => navigation.navigate("Orders List", {list: ordersList})}
       >
-        Back to Orders's List
+        Back to Order's List
       </TouchableOpacity>
     </View>
   );
@@ -194,5 +221,5 @@ const styles = StyleSheet.create({
     margin: 15,
     height: 40,
     borderRadius: 20,
-  },
+  }
 });
