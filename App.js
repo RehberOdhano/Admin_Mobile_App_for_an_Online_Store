@@ -11,6 +11,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+// these hard coded arrays are used to display the list of data
 const productsList = [{name: "abc", price: 10, URI: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80"}, 
 {name: "xyz", price: 20, URI: "https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"}];
 
@@ -21,12 +22,15 @@ const ordersList = [{order_num: 1, product_name: "abc","price": 20, customer_nam
 {order_num: 2,product_name: "xyz","price": 50, customer_name: "Tom", date: "1/5/2021"}
 ];
 
+// HOME SCREEN - MAIN SCREEN
 const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.button}
+        // on press of the button, we'll navigate to the products list screen, 
+        // the list is passed as parameter which we'll use to display the list 
         onPress={() => navigation.navigate("Products List", {list: productsList})}
       >
         <Text style={styles.text}>Manage Products</Text>
@@ -49,6 +53,7 @@ const HomeScreen = ({ navigation }) => {
   );
 }
 
+// PRODUCT LIST SCREEN - LIST OF PRODUCTS WILL BE DISPLAYED
 const ProductsListScreen = ({ navigation, route }) => {
 
   const {list} = route.params;
@@ -56,6 +61,10 @@ const ProductsListScreen = ({ navigation, route }) => {
 
     <View style={styles.container}>
 
+      {/* 
+        displaying the product's list using the FlatList and we get that list 
+        from the route parameter
+      */}
       <FlatList
         data={list}
         renderItem={({item}) => (
@@ -79,6 +88,8 @@ const ProductsListScreen = ({ navigation, route }) => {
   );
 }
 
+// PRODUCTS DETAIL SCREEN - this screen will display the entire info of the product
+// on which user clicks
 const ProductDetailsScreen = ({ navigation, route }) => {
   const {obj} = route.params; 
   return (
@@ -98,6 +109,7 @@ const ProductDetailsScreen = ({ navigation, route }) => {
   );
 }
 
+// EMPLOYEES LIST SCREEN - USED TO DISPLAY THE LIST OF EMPLOYEES
 const EmployeesListScreen = ({ navigation, route }) => {
 
   let {list} = route.params;
@@ -126,6 +138,7 @@ const EmployeesListScreen = ({ navigation, route }) => {
   );
 }
 
+// EMPLOYEE DETAIL SCREEN 
 const EmployeeDetailsScreen = ({ navigation, route}) => {
   let {obj} = route.params
   return (
@@ -144,6 +157,7 @@ const EmployeeDetailsScreen = ({ navigation, route}) => {
   );
 }
 
+// ORDERS LIST SCREEN 
 const OrdersListScreen = ({ navigation, route}) => {
   let {list} = route.params;
   return (
@@ -171,6 +185,7 @@ const OrdersListScreen = ({ navigation, route}) => {
   );
 }
 
+// ORDER DETAILS SCREEN
 const OrderDetailsScreen = ({ navigation, route}) => {
   let {obj} = route.params;
   return (
@@ -189,11 +204,14 @@ const OrderDetailsScreen = ({ navigation, route}) => {
   );
 }
 
+// this constructor provides a way for our app to transit between the screens where
+// each new screen is placed on top of the stack
 const Stack = createNativeStackNavigator();
 
 function MyStack() {
   return (
     <Stack.Navigator>
+      {/* REQUIRED SCREENS */}
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Products List" component={ProductsListScreen} />
       <Stack.Screen name="Product Details" component={ProductDetailsScreen} />
